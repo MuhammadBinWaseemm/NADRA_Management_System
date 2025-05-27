@@ -1,88 +1,64 @@
-
 # NADRA Management System
 
 # Overview
 The NADRA Management System is a C++ console application designed to simulate a citizen database management system, similar to Pakistan's National Database and Registration Authority (NADRA). It supports user authentication with cryptographic algorithms (Complex Hash, AES, DES, RSA), family tree management for citizen data, a token-based queue system, and console theming with customizable color schemes.
 
-# Data Structures
-The system uses the following data structures to manage data efficiently:
+# Secure Cryptography Mechanisms 
+
+# Complex Hash:
+
+Description: A custom hashing algorithm used to securely store sensitive user data.
+Usage: Applied to usernames, passwords, CNICs, and phone numbers to generate hashed values for secure storage and authentication.
+Features: Incorporates salt and pepper to enhance security against brute-force attacks.
+
+
+# AES (Advanced Encryption Standard):
+
+Description: A symmetric encryption algorithm used for securing user data.
+Usage: Encrypts sensitive fields like CNIC and phone numbers in user accounts to protect against unauthorized access.
+Key: Uses a user-specific AESK key stored in the Node structure.
+
+
+# DES (Data Encryption Standard):
+
+Description: A legacy symmetric encryption algorithm for additional data protection.
+Usage: Provides an alternative encryption method for user data, complementing AES.
+Key: Uses a user-specific DESK key stored in the Node structure.
+
+
+# RSA (Rivest-Shamir-Adleman):
+
+Description: An asymmetric encryption algorithm for secure key exchange and authentication.
+Usage: Secures cryptographic keys and validates user identity during sign-in, using public/private key pairs (p, q, n, e, d).
+Implementation: Integrated into the authentication process to ensure secure communication.
+
+
+
+# Data Structures and Their Purpose
 
 # Linked List (User Accounts):
 
-File: Accounts.cpp
-Structure: Node
-Fields: Username, password, cnic, phone, mac, Salt, Pepper, AESK, DESK, RSA keys (p, q, n, e, d), hashed values (hashedpassword, hashedcnic, etc.), and next pointer.
-Purpose: Stores user account details for secure authentication.
-Functions: insertNode, delnode, searchuser, updateuser, updatepass, printlist, printlistt.
+Structure: Node in Accounts.cpp with fields like Username, password, cnic, phone, mac, cryptographic keys (AESK, DESK, RSA keys), salt, pepper, and next pointer.
+Purpose: Stores and manages user account information for secure authentication and account operations (e.g., signup, sign-in, updates).
+
 
 # Linked List (Activity Log Stack):
 
-File: Accounts.cpp
-Structure: node
-Fields: data (log message), h, m, s (timestamp), and next pointer.
-Purpose: Logs user activities (e.g., sign-ins, account changes) in a stack.
-Functions: push, display.
+Structure: node in Accounts.cpp with data (log message), h, m, s (timestamp), and next pointer.
+Purpose: Maintains a stack-based log of user activities (e.g., sign-ins, account changes) for tracking and auditing purposes.
+
 
 # Binary Tree (Family Tree):
 
-File: Nadra.cpp
-Structure: person
-Fields: Fname, Lname, gender, address, ID, D, M, Y (date of birth), age, dose (vaccine doses), left (mother), right (father).
-Purpose: Manages citizen data in a family tree structure, linking individuals to their parents.
-Functions: addNewPerson, addMother, addFather, search, show, card, Ccertificate, printInOrder, saveData, addToFile, readFromFile.
-
-# Queue (Token System):
-
-File: Nadra.cpp
-Structure: Queue with node
-Fields: value (token number), link (circular linked list), front, rear, counter.
-Purpose: Manages token-based access to counters.
-Functions: enQueue, checkCounter, checkTokenNumber.
-
-# Sound Files
-
-The application uses sound effects for user feedback, played via PlaySound from <windows.h>. The sound files and their default paths are:
-Bubble.wav: Played on successful actions (e.g., account creation, password change).
-Path: C:/Users/PC/Downloads/Bubble.wav
+Structure: person in Nadra.cpp with fields like Fname, Lname, gender, address, ID, D, M, Y (date of birth), age, dose (vaccine doses), left (mother), and right (father).
+Purpose: Organizes citizen data in a family tree structure to manage relationships (parents and children) and support demographic queries.
 
 
-User.wav: Played on invalid inputs (e.g., username taken, invalid CNIC).
-Path: C:/Users/PC/Downloads/User.wav
+# Queue (Circular Linked List):
 
+Structure: Queue in Nadra.cpp with node containing value (token number), link (pointer), and queue pointers front, rear, and counter.
+Purpose: Manages a token-based queuing system for counter access, ensuring orderly processing of citizens.
 
-Denied.wav: Played on authentication failures (e.g., wrong password, invalid MAC).
-Path: C:/Users/PC/Downloads/Denied.wav
-
-
-Access.wav: Played on successful sign-in.
-Path: C:/Users/PC/Downloads/Access.wav
-
-
-
-# Handling Sound File Paths
-To use the sound files:
-
-Verify File Locations:
-Ensure the .wav files exist at the specified paths (C:/Users/PC/Downloads/).
-If files are located elsewhere, update the paths in Accounts.cpp within the PlaySound calls.
-
-
-Update Paths:
-Example: Change PlaySound(TEXT("C:/Users/PC/Downloads/Bubble.wav"), NULL, SND_FILENAME | SND_SYNC) to PlaySound(TEXT("D:/Sounds/Bubble.wav"), NULL, SND_FILENAME | SND_SYNC) if the file is in D:/Sounds/.
-Use forward slashes (/) or double backslashes (\\) for Windows paths.
-
-
-Permissions: Ensure the program has read access to the sound files. Consider placing them in the project directory for simplicity.
-Windows Dependency: The PlaySound function is Windows-specific. For non-Windows systems, replace with a cross-platform audio library (e.g., SFML) or comment out PlaySound calls to disable audio.
-Missing Files: If sound files are unavailable, comment out PlaySound lines to run the program without audio feedback.
-
-# Features
-
-User Authentication: Supports signup, signin, and password recovery with Complex Hash, AES, DES, or RSA encryption.
-Family Tree Management: Add citizens, view details, generate ID cards, and issue COVID-19 vaccination certificates.
-Token System: Manages counter access using a queue-based token system.
-Theming: Customizable console themes (Default, Zebra, Aqua, Buraikan, Blueberry, Jamun).
-Data Persistence: Saves citizen data to Record.txt.
 
 # How to Use
 Main Files
