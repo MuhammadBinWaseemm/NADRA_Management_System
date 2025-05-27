@@ -1,6 +1,5 @@
 # NADRA Management System
 
-# Overview
 The NADRA Management System is a C++ console application designed to simulate a citizen database management system, similar to Pakistan's National Database and Registration Authority (NADRA). It supports user authentication with cryptographic algorithms (Complex Hash, AES, DES, RSA), family tree management for citizen data, a token-based queue system, and console theming with customizable color schemes.
 
 # Secure Cryptography Mechanisms 
